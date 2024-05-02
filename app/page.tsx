@@ -1,3 +1,4 @@
+import { signIn } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { FaSpotify } from "react-icons/fa";
 
@@ -28,13 +29,21 @@ const HomePage = () => {
             favorite artists, and more.
           </p>
           <div className="flex justify-center">
-            <Button
-              size="lg"
-              className="bg-accent hover:bg-yellow-500 text-white font-bold rounded-full transition duration-300 ease-in-out flex items-center"
+            <form
+              action={async () => {
+                "use server";
+                await signIn("spotify", { redirectTo: "/dashboard" });
+              }}
             >
-              <FaSpotify className="mr-2" />
-              Connect with Spotify
-            </Button>
+              <Button
+                type="submit"
+                size="lg"
+                className="bg-accent hover:bg-yellow-500 text-white font-bold rounded-full transition duration-300 ease-in-out flex items-center"
+              >
+                <FaSpotify className="mr-2" />
+                Connect with Spotify
+              </Button>
+            </form>
           </div>
           <div className="mt-8">
             <h3 className="text-xl font-semibold mb-4 text-primary dark:text-text">

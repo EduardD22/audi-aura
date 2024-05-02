@@ -17,6 +17,7 @@ import Box from "./Box";
 import SideNavItem from "./SideNavItem";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
+import { signOut } from "next-auth/react";
 
 interface SideNavProps {
   children: React.ReactNode;
@@ -114,8 +115,17 @@ const SideNav: React.FC<SideNavProps> = ({ children }) => {
         </Box>
         <Box className="px-4 py-2">
           <div className="flex items-center gap-x-4 text-md cursor-pointer hover:text-accent transition">
-            <HiLogout size={24} className="text-accent" />
-            <span>Log out</span>
+            <button
+              className="flex gap-x-4"
+              onClick={() =>
+                signOut({
+                  callbackUrl: "/",
+                })
+              }
+            >
+              <HiLogout size={24} className="text-accent" />
+              Log out
+            </button>
           </div>
         </Box>
       </nav>

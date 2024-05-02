@@ -1,16 +1,31 @@
 import React from "react";
 import OverviewStatsCard from "../components/OverviewStatsCard";
 import RecentlyPlayed from "../components/RecentlyPlayed";
+import { auth } from "@/auth";
+import Image from "next/image";
 
-const Page = () => {
+export default async function Page() {
+  const session = await auth();
+
+  if (!session?.user) return null;
+
   return (
     <section>
       <div className="flex justify-between items-center">
         <h1 className=" font-bold text-4xl text-text">Overview</h1>
         <div className="flex items-center gap-1">
-          <div className="w-[50px] h-[50px] bg-secondary rounded-full"></div>
+          {session.user.image && (
+            <Image
+              src={session.user.image}
+              alt="user avatar"
+              className="rounded-full object-cover"
+              width={50}
+              height={50}
+            />
+          )}
+
           <p className="font-bold">
-            Hi, <span className="font-bold">Eduard</span>
+            Hi, <span className="font-bold">{session.user.name}</span>
           </p>
         </div>
       </div>
@@ -25,6 +40,4 @@ const Page = () => {
       </div>
     </section>
   );
-};
-
-export default Page;
+}
