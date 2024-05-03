@@ -1,16 +1,18 @@
-import NextAuth from "next-auth";
+import NextAuth, { DefaultSession } from "next-auth";
 import Spotify from "next-auth/providers/spotify";
+
+declare module "next-auth" {
+  interface Session extends DefaultSession {
+    access_token?: string;
+  }
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Spotify({
       clientId: process.env.AUTH_SPOTIFY_ID,
       clientSecret: process.env.AUTH_SPOTIFY_SECRET,
-      authorization: {
-        params: {
-          scope: "user-read-private user-read-email", // Add necessary scopes
-        },
-      },
+      authorization: `https://accounts.spotify.com/authorize?scope=user-read-private user-read-email user-top-read user-read-recently-played user-library-read`,
     }),
   ],
   callbacks: {
@@ -26,17 +28,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
 
-    jwt({ token, user }) {
-      if (user) {
-        // User is available during sign-in
-        token.id = user.id;
+    jwt({ token, account }) {
+      if (account) {
+        token.access_token = account.access_token;
       }
+
       return token;
     },
     session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
+        session.access_token = token.access_token as string;
       }
+
       return session;
     },
   },

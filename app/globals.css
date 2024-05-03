@@ -9,6 +9,7 @@
     --primary: #14223e;
     --secondary: #e0e0e0;
     --accent: #ed9302;
+    --text-opacity: #808080;
   }
 
   .dark {
@@ -17,6 +18,7 @@
     --primary: #c1cfeb;
     --secondary: #1f1f1f;
     --accent: #fda312;
+    --text-opacity: #c0c0c0;
   }
 }
 

@@ -14,7 +14,7 @@ const OverviewStatsCard: React.FC<OverViewStatsCard> = ({ title, value }) => {
         <HiDotsVertical className="text-accent" />
       </div>
 
-      <div className="font-bold text-2xl">{value}</div>
+      <div className="font-bold text-2xl capitalize">{value}</div>
     </Card>
   );
 };
