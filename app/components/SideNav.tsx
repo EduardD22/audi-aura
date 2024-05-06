@@ -77,7 +77,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }) => {
           isScrolled ? "bg-glass" : "bg-secondary"
         }`}
       >
-        <div className="flex items-center justify-center h-16 mb-4">
+        <div className="flex items-center justify-center h-12 mb-4">
           <img src="/images/logo.svg" alt="AudiAura logo" className="h-11" />
         </div>
         <div className="flex justify-around w-full">
