@@ -9,7 +9,9 @@ import {
   fetchTopGenre,
   fetchTopTrack,
   fetchTotalTracks,
+  getBubbleChartData,
 } from "@/lib/data";
+import BubbleChart from "../components/BubbleChart";
 
 export default async function Page() {
   const session = await auth();
@@ -20,14 +22,21 @@ export default async function Page() {
   console.log("Access Token:", session.access_token); // Log the access token
 
   const accessToken = session.access_token ?? "";
-  const [topArtist, topTrack, topGenre, totalTracks, recentlyPlayed] =
-    await Promise.all([
-      fetchTopArtist(accessToken),
-      fetchTopTrack(accessToken),
-      fetchTopGenre(accessToken),
-      fetchTotalTracks(accessToken),
-      fetchRecentlyPlayed(accessToken),
-    ]);
+  const [
+    topArtist,
+    topTrack,
+    topGenre,
+    totalTracks,
+    recentlyPlayed,
+    bubbleChartData,
+  ] = await Promise.all([
+    fetchTopArtist(accessToken),
+    fetchTopTrack(accessToken),
+    fetchTopGenre(accessToken),
+    fetchTotalTracks(accessToken),
+    fetchRecentlyPlayed(accessToken),
+    getBubbleChartData(accessToken),
+  ]);
 
   return (
     <section>
@@ -57,6 +66,9 @@ export default async function Page() {
       </div>
       <div className=" mt-5">
         <RecentlyPlayed tracks={recentlyPlayed} />
+      </div>
+      <div className="mt-5">
+        <BubbleChart data={bubbleChartData} />
       </div>
     </section>
   );

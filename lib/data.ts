@@ -98,3 +98,63 @@ export async function fetchRecentlyPlayed(accessToken: string) {
   const data = await response.json();
   return data.items;
 }
+
+export async function fetchTopTracks(
+  accessToken: string,
+  timeRange: string = "medium_term",
+  limit: number = 50
+) {
+  const response = await fetch(
+    `https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}&limit=${limit}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch top tracks");
+  }
+
+  const data = await response.json();
+  return data.items;
+}
+
+export async function fetchAudioFeatures(
+  accessToken: string,
+  trackIds: string[]
+) {
+  const response = await fetch(
+    `https://api.spotify.com/v1/audio-features?ids=${trackIds.join(",")}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch audio features");
+  }
+
+  const data = await response.json();
+  return data.audio_features;
+}
+
+export async function getBubbleChartData(accessToken: string) {
+  const topTracks = await fetchTopTracks(accessToken);
+  const trackIds = topTracks.map((track: any) => track.id);
+  const audioFeatures = await fetchAudioFeatures(accessToken, trackIds);
+
+  const bubbleChartData = audioFeatures.map((feature: any, index: number) => ({
+    id: trackIds[index],
+    title: topTracks[index].name,
+    artist: topTracks[index].artists[0].name,
+    energy: feature.energy,
+    valence: feature.valence,
+    popularity: topTracks[index].popularity,
+  }));
+
+  return bubbleChartData;
+}
