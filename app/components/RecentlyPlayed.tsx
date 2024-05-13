@@ -8,6 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
+import { HiDotsVertical } from "react-icons/hi";
+import SectionTitle from "./SectionTitle";
 
 interface Track {
   track: {
@@ -28,7 +30,7 @@ interface RecentlyPlayedProps {
 const RecentlyPlayed: React.FC<RecentlyPlayedProps> = ({ tracks }) => {
   return (
     <div className="rounded-lg bg-secondary border">
-      <h2 className=" p-6 text-2xl font-bold">Recently Played Songs</h2>
+      <SectionTitle title="Recently Played" />
       <Table>
         <TableHeader className=" border-y-2">
           <TableRow>

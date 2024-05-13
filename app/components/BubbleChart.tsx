@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
+import SectionTitle from "./SectionTitle";
 
 interface BubbleChartProps {
   data: {
@@ -60,7 +61,7 @@ const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
 
   return (
     <div className="rounded-lg bg-secondary border border-text-opacity">
-      <h2 className="p-6 text-2xl font-bold text-text">Song Bubble Chart</h2>
+      <SectionTitle title="Song Bubble Chart" />
       <ResponsiveContainer width="100%" height={400}>
         <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
           <XAxis

@@ -1,10 +1,21 @@
+import CustomPieChart from "@/app/components/CustomPieChart";
+import CustomRadarChart from "@/app/components/CustomRadarChart";
+
 import { auth } from "@/auth";
+import { fetchTopGenres, getRadarChartData } from "@/lib/data";
 import Image from "next/image";
 
 export default async function Page() {
   const session = await auth();
 
   if (!session?.user) return null;
+
+  const accessToken = session.access_token ?? "";
+
+  const [radarChartData, topGenres] = await Promise.all([
+    getRadarChartData(accessToken),
+    fetchTopGenres(accessToken),
+  ]);
 
   return (
     <section>
@@ -25,6 +36,11 @@ export default async function Page() {
             Hi, <span className="font-bold">{session.user.name}</span>
           </p>
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
+        <CustomRadarChart data={radarChartData} />
+        <CustomPieChart data={topGenres} />
       </div>
     </section>
   );

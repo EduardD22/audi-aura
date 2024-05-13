@@ -10,6 +10,10 @@
     --secondary: #e0e0e0;
     --accent: #ed9302;
     --text-opacity: #808080;
+    --chart-color-1: #1f77b4;
+    --chart-color-2: #ff7f0e;
+    --chart-color-3: #2ca02c;
+    --chart-color-4: #d62728;
   }
 
   .dark {
@@ -19,6 +23,10 @@
     --secondary: #1f1f1f;
     --accent: #fda312;
     --text-opacity: #c0c0c0;
+    --chart-color-1: #6baed6;
+    --chart-color-2: #ffa54f;
+    --chart-color-3: #74c476;
+    --chart-color-4: #e74c3c;
   }
 }
 
