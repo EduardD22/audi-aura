@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { Comfortaa } from "next/font/google";
 
 import {
   HiHome,
@@ -18,12 +19,19 @@ import SideNavItem from "./SideNavItem";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 import { signOut } from "next-auth/react";
+import { useTheme } from "next-themes";
+import Image from "next/image";
 
 interface SideNavProps {
   children: React.ReactNode;
 }
 
+const comfortaa = Comfortaa({
+  subsets: ["latin"],
+});
+
 const SideNav: React.FC<SideNavProps> = ({ children }) => {
+  const { setTheme, theme } = useTheme();
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -73,12 +81,23 @@ const SideNav: React.FC<SideNavProps> = ({ children }) => {
     <div className="flex flex-col md:flex-row h-full">
       {/* Mobile Navigation */}
       <nav
-        className={`md:hidden fixed top-0 left-0 right-0 z-10 flex flex-col items-center py-4 transition-all duration-300 ${
-          isScrolled ? "bg-glass" : "bg-secondary"
-        }`}
+        className={twMerge(
+          "md:hidden fixed top-0 left-0 right-0 z-10 flex flex-col items-center py-4 transition-all duration-300",
+          isScrolled
+            ? theme === "dark" || theme === "system"
+              ? "bg-glass-dark"
+              : "bg-glass-light"
+            : "bg-secondary"
+        )}
       >
         <div className="flex items-center justify-center h-12 mb-4">
-          <img src="/images/logo.svg" alt="AudiAura logo" className="h-11" />
+          <div className={`${comfortaa.className} flex items-center `}>
+            <Image src="/images/chart.svg" width={60} height={45} alt="logo" />
+            <h1 className=" font-bold text-3xl text-primary">
+              Audi
+              <span className="text-accent font-bold text-3xl">Aura</span>
+            </h1>
+          </div>
         </div>
         <div className="flex justify-around w-full">
           {routes.map((item) => (
@@ -100,7 +119,13 @@ const SideNav: React.FC<SideNavProps> = ({ children }) => {
       {/* Desktop Navigation */}
       <nav className="hidden md:flex flex-col gap-y-2 h-screen text-text w-64 p-4  fixed top-0 left-0">
         <Box className="flex items-center justify-center h-16">
-          <img src="/images/logo.svg" alt="AudiAura logo" className="h-11" />
+          <div className={`${comfortaa.className} flex items-center p-1`}>
+            <Image src="/images/chart.svg" width={60} height={45} alt="logo" />
+            <h1 className=" font-bold text-3xl text-primary">
+              Audi
+              <span className="text-accent font-bold text-3xl">Aura</span>
+            </h1>
+          </div>
         </Box>
         {routes.map((item) => (
           <Box key={item.label} className="px-4 py-2">
@@ -109,9 +134,21 @@ const SideNav: React.FC<SideNavProps> = ({ children }) => {
         ))}
         <Box children="" className="flex-grow"></Box>
         <Box className="flex items-center justify-around px-4 py-2 text-accent">
-          <HiSun size={24} className="cursor-pointer" />
-          <HiDesktopComputer size={24} className="cursor-pointer" />
-          <HiMoon size={24} className="cursor-pointer" />
+          <HiSun
+            size={24}
+            className="cursor-pointer"
+            onClick={() => setTheme("light")}
+          />
+          <HiDesktopComputer
+            size={24}
+            className="cursor-pointer"
+            onClick={() => setTheme("system")}
+          />
+          <HiMoon
+            size={24}
+            className="cursor-pointer"
+            onClick={() => setTheme("dark")}
+          />
         </Box>
         <Box className="px-4 py-2">
           <div className="flex items-center gap-x-4 text-md cursor-pointer hover:text-accent transition">

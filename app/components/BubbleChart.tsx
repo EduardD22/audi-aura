@@ -60,7 +60,7 @@ const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
   };
 
   return (
-    <div className="rounded-lg bg-secondary border border-text-opacity">
+    <div className="rounded-lg bg-secondary border border-border">
       <SectionTitle title="Song Bubble Chart" />
       <ResponsiveContainer width="100%" height={400}>
         <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>

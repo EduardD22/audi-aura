@@ -108,8 +108,8 @@ export async function fetchRecentlyPlayed(accessToken: string) {
 
 export async function fetchTopTracks(
   accessToken: string,
-  timeRange: string = "medium_term",
-  limit: number = 50
+  timeRange: string,
+  limit: number
 ) {
   const response = await fetch(
     `https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}&limit=${limit}`,
@@ -150,7 +150,7 @@ export async function fetchAudioFeatures(
 }
 
 export async function getBubbleChartData(accessToken: string) {
-  const topTracks = await fetchTopTracks(accessToken);
+  const topTracks = await fetchTopTracks(accessToken, "short_term", 50);
   const trackIds = topTracks.map((track: any) => track.id);
   const audioFeatures = await fetchAudioFeatures(accessToken, trackIds);
 

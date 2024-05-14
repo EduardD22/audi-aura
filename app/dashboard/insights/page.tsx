@@ -1,20 +1,32 @@
 import CustomPieChart from "@/app/components/CustomPieChart";
 import CustomRadarChart from "@/app/components/CustomRadarChart";
+import TopTracksTable from "@/app/components/TopTracksTable";
+import TopTracksTableSkeleton from "@/app/components/TopTracksTableSkeleton";
 
 import { auth } from "@/auth";
-import { fetchTopGenres, getRadarChartData } from "@/lib/data";
+import { fetchTopGenres, fetchTopTracks, getRadarChartData } from "@/lib/data";
 import Image from "next/image";
+import { Suspense } from "react";
 
-export default async function Page() {
+interface Params {
+  searchParams: {
+    timeRange?: string;
+  };
+}
+
+export default async function Page({ searchParams }: Params) {
   const session = await auth();
 
   if (!session?.user) return null;
 
   const accessToken = session.access_token ?? "";
 
-  const [radarChartData, topGenres] = await Promise.all([
+  const timeRange = searchParams.timeRange || "medium_term";
+
+  const [radarChartData, topGenres, topTracks] = await Promise.all([
     getRadarChartData(accessToken),
     fetchTopGenres(accessToken),
+    fetchTopTracks(accessToken, timeRange, 5),
   ]);
 
   return (
@@ -41,6 +53,11 @@ export default async function Page() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
         <CustomRadarChart data={radarChartData} />
         <CustomPieChart data={topGenres} />
+      </div>
+      <div className="mt-5">
+        <Suspense fallback={<TopTracksTableSkeleton />}>
+          <TopTracksTable tracks={topTracks} title="Top Tracks" />
+        </Suspense>
       </div>
     </section>
   );

@@ -25,6 +25,7 @@ const config = {
         secondary: "var(--secondary)",
         accent: "var(--accent)",
         opacity: "var(--text-opacity)",
+        border: "var(--border-card-color)",
       },
       borderRadius: {
         lg: "0.5rem",

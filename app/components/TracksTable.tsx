@@ -1,14 +1,13 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
-import { HiDotsVertical } from "react-icons/hi";
+
 import SectionTitle from "./SectionTitle";
 
 interface Track {
@@ -23,16 +22,17 @@ interface Track {
   };
 }
 
-interface RecentlyPlayedProps {
+interface TracksTableProps {
   tracks: Track[];
+  title: string;
 }
 
-const RecentlyPlayed: React.FC<RecentlyPlayedProps> = ({ tracks }) => {
+const TracksTable: React.FC<TracksTableProps> = ({ tracks, title }) => {
   return (
-    <div className="rounded-lg bg-secondary border">
-      <SectionTitle title="Recently Played" />
+    <div className="rounded-lg bg-secondary border border-border">
+      <SectionTitle title={title} />
       <Table>
-        <TableHeader className=" border-y-2">
+        <TableHeader className=" border-y-2 border-border">
           <TableRow>
             <TableHead className="w-[50px] text-opacity font-bold">#</TableHead>
             <TableHead className="font-bold text-opacity">Title</TableHead>
@@ -78,4 +78,4 @@ const RecentlyPlayed: React.FC<RecentlyPlayedProps> = ({ tracks }) => {
   );
 };
 
-export default RecentlyPlayed;
+export default TracksTable;

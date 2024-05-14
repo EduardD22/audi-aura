@@ -1,6 +1,6 @@
 import React from "react";
 import OverviewStatsCard from "../components/OverviewStatsCard";
-import RecentlyPlayed from "../components/RecentlyPlayed";
+
 import { auth } from "@/auth";
 import Image from "next/image";
 import {
@@ -12,6 +12,7 @@ import {
   getBubbleChartData,
 } from "@/lib/data";
 import BubbleChart from "../components/BubbleChart";
+import TracksTable from "../components/TracksTable";
 
 export default async function Page() {
   const session = await auth();
@@ -65,7 +66,7 @@ export default async function Page() {
         <OverviewStatsCard title="Saved Songs" value={totalTracks} />
       </div>
       <div className=" mt-5">
-        <RecentlyPlayed tracks={recentlyPlayed} />
+        <TracksTable title="Recently Played" tracks={recentlyPlayed} />
       </div>
       <div className="mt-5">
         <BubbleChart data={bubbleChartData} />

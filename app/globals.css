@@ -14,6 +14,7 @@
     --chart-color-2: #ff7f0e;
     --chart-color-3: #2ca02c;
     --chart-color-4: #d62728;
+    --border-card-color: #f1f1f1;
   }
 
   .dark {
@@ -27,10 +28,16 @@
     --chart-color-2: #ffa54f;
     --chart-color-3: #74c476;
     --chart-color-4: #e74c3c;
+    --border-card-color: #333333;
   }
 }
 
-.bg-glass {
+.bg-glass-light {
   background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+}
+
+.bg-glass-dark {
+  background-color: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(5px);
 }

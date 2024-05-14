@@ -1,7 +1,7 @@
 import React from "react";
 import { HiDotsVertical } from "react-icons/hi";
 
-interface SectionTitleProps {
+export interface SectionTitleProps {
   title: string;
 }
 

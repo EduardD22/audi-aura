@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardTitle } from "@/components/ui/card";
 import { HiDotsVertical } from "react-icons/hi";
 
 interface OverViewStatsCard {
