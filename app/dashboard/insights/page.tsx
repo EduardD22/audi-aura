@@ -1,10 +1,16 @@
+import ArtistCard from "@/app/components/ArtistCard";
 import CustomPieChart from "@/app/components/CustomPieChart";
 import CustomRadarChart from "@/app/components/CustomRadarChart";
 import TopTracksTable from "@/app/components/TopTracksTable";
-import TopTracksTableSkeleton from "@/app/components/TopTracksTableSkeleton";
 
 import { auth } from "@/auth";
-import { fetchTopGenres, fetchTopTracks, getRadarChartData } from "@/lib/data";
+import {
+  fetchTopArtists,
+  fetchTopGenres,
+  fetchTopTracks,
+  getRadarChartData,
+} from "@/lib/data";
+import { Artist } from "@/lib/definitions";
 import Image from "next/image";
 import { Suspense } from "react";
 
@@ -23,10 +29,11 @@ export default async function Page({ searchParams }: Params) {
 
   const timeRange = searchParams.timeRange || "medium_term";
 
-  const [radarChartData, topGenres, topTracks] = await Promise.all([
+  const [radarChartData, topGenres, topTracks, topArtists] = await Promise.all([
     getRadarChartData(accessToken),
     fetchTopGenres(accessToken),
     fetchTopTracks(accessToken, timeRange, 5),
+    fetchTopArtists(accessToken),
   ]);
 
   return (
@@ -54,10 +61,13 @@ export default async function Page({ searchParams }: Params) {
         <CustomRadarChart data={radarChartData} />
         <CustomPieChart data={topGenres} />
       </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mt-5">
+        {topArtists.map((artist: Artist) => (
+          <ArtistCard key={artist.id} artist={artist} />
+        ))}
+      </div>
       <div className="mt-5">
-        <Suspense fallback={<TopTracksTableSkeleton />}>
-          <TopTracksTable tracks={topTracks} title="Top Tracks" />
-        </Suspense>
+        <TopTracksTable tracks={topTracks} title="Top Tracks" />
       </div>
     </section>
   );

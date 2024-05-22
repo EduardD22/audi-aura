@@ -12,6 +12,7 @@ import {
   Cell,
 } from "recharts";
 import SectionTitle from "./SectionTitle";
+import { HiDotsVertical } from "react-icons/hi";
 
 interface BubbleChartProps {
   data: {
@@ -61,7 +62,7 @@ const BubbleChart: React.FC<BubbleChartProps> = ({ data }) => {
 
   return (
     <div className="rounded-lg bg-secondary border border-border">
-      <SectionTitle title="Song Bubble Chart" />
+      <SectionTitle title="Song Bubble Chart" Icon={HiDotsVertical} />
       <ResponsiveContainer width="100%" height={400}>
         <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
           <XAxis

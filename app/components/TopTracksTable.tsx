@@ -21,6 +21,7 @@ import Image from "next/image";
 import SectionTitle from "./SectionTitle";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { HiDotsVertical } from "react-icons/hi";
 
 interface Track {
   album: {
@@ -54,7 +55,7 @@ const TopTracksTable: React.FC<TopTracksTableProps> = ({ tracks, title }) => {
   };
   return (
     <div className="rounded-lg bg-secondary border border-border">
-      <SectionTitle title={title} />
+      <SectionTitle title={title} Icon={HiDotsVertical} />
       <div className="ml-6 mb-6">
         <Select onValueChange={handleTimeRangeChange}>
           <SelectTrigger className="w-[180px]">

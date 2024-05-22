@@ -10,6 +10,7 @@ import {
   Legend,
 } from "recharts";
 import SectionTitle from "./SectionTitle";
+import { HiDotsVertical } from "react-icons/hi";
 
 interface RadarChartData {
   metric: string;
@@ -25,7 +26,7 @@ const CustomRadarChart: React.FC<RadarChartProps> = ({ data }) => {
 
   return (
     <div className="rounded-lg bg-secondary border border-border center">
-      <SectionTitle title="Top Artists" />
+      <SectionTitle title="Top Artists" Icon={HiDotsVertical} />
       <ResponsiveContainer width="100%" height={400}>
         <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
           <PolarGrid />

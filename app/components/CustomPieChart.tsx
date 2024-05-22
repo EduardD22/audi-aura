@@ -2,6 +2,7 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from "recharts";
 import SectionTitle from "./SectionTitle";
+import { HiDotsVertical } from "react-icons/hi";
 
 interface PieChartData {
   name: string;
@@ -23,7 +24,7 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
   };
   return (
     <div className="rounded-lg bg-secondary border border-border">
-      <SectionTitle title="Top Genres" />
+      <SectionTitle title="Top Genres" Icon={HiDotsVertical} />
       <ResponsiveContainer width="100%" height={400}>
         <PieChart>
           <Pie

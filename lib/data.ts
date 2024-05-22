@@ -312,3 +312,107 @@ export async function fetchTopGenres(accessToken: string) {
 
   return sortedGenres;
 }
+
+// recommendations
+
+// fetching the artist details because followers and genres are not available in the recommendations endpoint
+export async function fetchArtistDetails(
+  accessToken: string,
+  artistId: string
+) {
+  const response = await fetch(
+    `https://api.spotify.com/v1/artists/${artistId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch artist details");
+  }
+
+  const data = await response.json();
+  return {
+    followers: data.followers.total,
+    genres: data.genres,
+  };
+}
+
+export async function fetchRecommendedArtists(accessToken: string) {
+  const topArtists = await fetchTopArtists(accessToken, 5);
+  const artistIds = topArtists.map((artist: any) => artist.id);
+
+  const response = await fetch(
+    `https://api.spotify.com/v1/recommendations?seed_artists=${artistIds.join(
+      ","
+    )}&limit=4`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch recommended artists");
+  }
+
+  const data = await response.json();
+
+  // get recommended artist data
+  const recommendedArtists = await Promise.all(
+    data.tracks.map(async (track: any) => {
+      const artistId = track.artists[0].id;
+      const artistResponse = await fetch(
+        `https://api.spotify.com/v1/artists/${artistId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (!artistResponse.ok) {
+        throw new Error("Failed to fetch artist details");
+      }
+
+      const artistData = await artistResponse.json();
+
+      return {
+        id: artistId,
+        name: artistData.name,
+        images: artistData.images,
+        followers: { total: artistData.followers.total },
+        genres: artistData.genres,
+      };
+    })
+  );
+
+  return recommendedArtists;
+}
+
+export async function fetchRecommendedTracks(accessToken: string) {
+  const topTracks = await fetchTopTracks(accessToken, "short_term", 5);
+  const trackIds = topTracks.map((track: any) => track.id);
+
+  const response = await fetch(
+    `https://api.spotify.com/v1/recommendations?seed_tracks=${trackIds.join(
+      ","
+    )}&limit=10`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch recommended tracks");
+  }
+
+  const data = await response.json();
+
+  return data.tracks;
+}

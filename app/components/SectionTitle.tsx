@@ -1,16 +1,17 @@
 import React from "react";
-import { HiDotsVertical } from "react-icons/hi";
+import { IconType } from "react-icons";
 
 export interface SectionTitleProps {
   title: string;
+  Icon?: IconType;
 }
 
-const SectionTitle: React.FC<SectionTitleProps> = ({ title }) => {
+const SectionTitle: React.FC<SectionTitleProps> = ({ title, Icon }) => {
   return (
     <div className=" p-6 flex justify-between items-center">
       <h2 className="text-2xl font-bold">{title}</h2>
 
-      <HiDotsVertical className="text-accent" />
+      {Icon && <Icon className="text-accent" />}
     </div>
   );
 };

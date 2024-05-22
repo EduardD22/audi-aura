@@ -9,8 +9,9 @@ import {
 import Image from "next/image";
 
 import SectionTitle from "./SectionTitle";
+import { IconType } from "react-icons";
 
-interface Track {
+export interface Track {
   track: {
     album: {
       images: { url: string }[];
@@ -25,12 +26,13 @@ interface Track {
 interface TracksTableProps {
   tracks: Track[];
   title: string;
+  icon?: IconType;
 }
 
-const TracksTable: React.FC<TracksTableProps> = ({ tracks, title }) => {
+const TracksTable: React.FC<TracksTableProps> = ({ tracks, title, icon }) => {
   return (
     <div className="rounded-lg bg-secondary border border-border">
-      <SectionTitle title={title} />
+      <SectionTitle title={title} Icon={icon} />
       <Table>
         <TableHeader className=" border-y-2 border-border">
           <TableRow>

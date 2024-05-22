@@ -20,6 +20,9 @@ declare module "@auth/core/jwt" {
   }
 }
 
+let refreshingToken = false; // indicates whether a token refresh request is currently in progress
+let refreshTokenQueue: any[] = []; // array that stores pending refresh requests
+
 async function refreshAccessToken(token: any) {
   try {
     const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -52,6 +55,36 @@ async function refreshAccessToken(token: any) {
   }
 }
 
+// function that manages the locking mechanism for the token refresh process
+async function refreshToken(token: any) {
+  // if refreshinToken is true, token refresh is already in progress
+  if (refreshingToken) {
+    // return a new promise and add the resolve function to the refresh token queue
+    return new Promise((resolve) => {
+      refreshTokenQueue.push(resolve);
+    });
+  }
+
+  // if no refresh is in progress, refreshingToken is set to true and function proceeds to call refreshAccessToken to refresh
+  refreshingToken = true;
+
+  try {
+    const refreshedToken = await refreshAccessToken(token);
+    // when token refresh complete, resolve all promises in the refresh token queue with the refreshed token and clear the queue
+    refreshTokenQueue.forEach((resolve) => resolve(refreshedToken));
+    refreshTokenQueue = [];
+    return refreshedToken;
+  } catch (error) {
+    // if error, resolve with null
+    refreshTokenQueue.forEach((resolve) => resolve(null));
+    refreshTokenQueue = [];
+    throw error;
+  } finally {
+    // set refreshingToken to false to allow future token refreshes
+    refreshingToken = false;
+  }
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Spotify({
@@ -62,11 +95,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user; // !! is used here to convert the potentially truthy/falsy value of auth?.user to a strict boolean representation
+      const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith("/dashboard");
       if (isOnDashboard) {
         if (isLoggedIn) return true;
-        return false; // redirect authenticated users to login page
+        return false;
       } else if (isLoggedIn) {
         return Response.redirect(new URL("/dashboard", nextUrl));
       }
@@ -81,6 +114,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           access_token: account.access_token,
           expires_at: account.expires_at,
           refresh_token: account.refresh_token,
+
           user,
         };
       }
@@ -97,7 +131,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
 
       try {
-        const refreshedToken = await refreshAccessToken(token);
+        const refreshedToken = await refreshToken(token);
+        if (!refreshedToken) {
+          throw new Error("Failed to refresh token");
+        }
         console.log("Token refreshed successfully, returning updated token");
         return refreshedToken;
       } catch (error) {
@@ -105,6 +142,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return { ...token, error: "RefreshAccessTokenError" as const };
       }
     },
+
     session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
