@@ -9,6 +9,10 @@ import {
 import Image from "next/image";
 
 import SectionTitle from "./SectionTitle";
+import { CiPlay1 } from "react-icons/ci";
+import { Button } from "@/components/ui/button";
+import SubmitBtn from "./SubmitBtn";
+import { createRecommendedPlaylist } from "@/lib/actions";
 
 export interface Track {
   track: {
@@ -23,15 +27,31 @@ export interface Track {
   };
 }
 
-interface TracksTableProps {
+interface RecommendationsTableProps {
   tracks: Track[];
   title: string;
+  accessToken: string;
 }
 
-const TracksTable: React.FC<TracksTableProps> = ({ tracks, title }) => {
+const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
+  tracks,
+  title,
+  accessToken,
+}) => {
   return (
     <div className="rounded-lg bg-secondary border border-border">
       <SectionTitle title={title} />
+      <div className="ml-6 mb-6">
+        <form action={createRecommendedPlaylist}>
+          <input type="hidden" name="accessToken" value={accessToken} />
+          <input
+            type="hidden"
+            name="recommendedTracks"
+            value={JSON.stringify(tracks)}
+          />
+          <SubmitBtn />
+        </form>
+      </div>
       <Table>
         <TableHeader className=" border-y-2 border-border">
           <TableRow>
@@ -39,9 +59,7 @@ const TracksTable: React.FC<TracksTableProps> = ({ tracks, title }) => {
             <TableHead className="font-bold text-opacity">Title</TableHead>
             <TableHead className="font-bold text-opacity">Artist</TableHead>
             <TableHead className="font-bold text-opacity">Album</TableHead>
-            <TableHead className=" text-center font-bold text-opacity ">
-              Release Date
-            </TableHead>
+            <TableHead className="font-bold text-opacity ">Play</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -68,8 +86,8 @@ const TracksTable: React.FC<TracksTableProps> = ({ tracks, title }) => {
               <TableCell className="text-xs text-opacity">
                 {track.track.album.name}
               </TableCell>
-              <TableCell className="text-center text-xs text-opacity">
-                {track.track.album.release_date}
+              <TableCell className="text-center">
+                <CiPlay1 className="text-accent" />
               </TableCell>
             </TableRow>
           ))}
@@ -79,4 +97,4 @@ const TracksTable: React.FC<TracksTableProps> = ({ tracks, title }) => {
   );
 };
 
-export default TracksTable;
+export default RecommendationsTable;

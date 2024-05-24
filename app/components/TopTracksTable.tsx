@@ -55,7 +55,7 @@ const TopTracksTable: React.FC<TopTracksTableProps> = ({ tracks, title }) => {
   };
   return (
     <div className="rounded-lg bg-secondary border border-border">
-      <SectionTitle title={title} Icon={HiDotsVertical} />
+      <SectionTitle title={title} />
       <div className="ml-6 mb-6">
         <Select onValueChange={handleTimeRangeChange}>
           <SelectTrigger className="w-[180px]">

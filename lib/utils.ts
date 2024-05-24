@@ -16,6 +16,7 @@ export function transformRecommendedTracks(tracks: any[]): Track[] {
       },
       artists: track.artists,
       name: track.name,
+      uri: track.uri,
     },
   }));
 }

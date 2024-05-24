@@ -90,7 +90,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Spotify({
       clientId: process.env.AUTH_SPOTIFY_ID,
       clientSecret: process.env.AUTH_SPOTIFY_SECRET,
-      authorization: `https://accounts.spotify.com/authorize?scope=user-read-private user-read-email user-top-read user-read-recently-played user-library-read`,
+      authorization: `https://accounts.spotify.com/authorize?scope=user-read-private user-read-email user-top-read user-read-recently-played user-library-read playlist-modify-private playlist-modify-public`,
     }),
   ],
   callbacks: {

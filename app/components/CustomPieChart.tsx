@@ -24,7 +24,7 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
   };
   return (
     <div className="rounded-lg bg-secondary border border-border">
-      <SectionTitle title="Top Genres" Icon={HiDotsVertical} />
+      <SectionTitle title="Top Genres" />
       <ResponsiveContainer width="100%" height={400}>
         <PieChart>
           <Pie

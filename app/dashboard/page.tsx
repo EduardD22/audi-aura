@@ -13,7 +13,6 @@ import {
 } from "@/lib/data";
 import BubbleChart from "../components/BubbleChart";
 import TracksTable from "../components/TracksTable";
-import { HiDotsVertical } from "react-icons/hi";
 
 export default async function Page() {
   const session = await auth();
@@ -67,11 +66,7 @@ export default async function Page() {
         <OverviewStatsCard title="Saved Songs" value={totalTracks} />
       </div>
       <div className=" mt-5">
-        <TracksTable
-          title="Recently Played"
-          tracks={recentlyPlayed}
-          icon={HiDotsVertical}
-        />
+        <TracksTable title="Recently Played" tracks={recentlyPlayed} />
       </div>
       <div className="mt-5">
         <BubbleChart data={bubbleChartData} />

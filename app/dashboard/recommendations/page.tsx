@@ -1,16 +1,13 @@
-import ArtistCard from "@/app/components/ArtistCard";
 import CardWrapper from "@/app/components/CardWrapper";
-import TracksTable from "@/app/components/TracksTable";
+import RecommendationsTable from "@/app/components/RecommendationsTable";
 
 import { auth } from "@/auth";
 import CardsSkeleton from "@/components/ui/CardsSkeleton";
 import { fetchRecommendedTracks } from "@/lib/data";
 
-import { Artist } from "@/lib/definitions";
 import { transformRecommendedTracks } from "@/lib/utils";
 import Image from "next/image";
 import { Suspense } from "react";
-import { FaPlus } from "react-icons/fa";
 
 export default async function Page() {
   const session = await auth();
@@ -19,10 +16,9 @@ export default async function Page() {
 
   const accessToken = session.access_token ?? "";
 
-  const [recommendedTracksData] = await Promise.all([
-    fetchRecommendedTracks(accessToken),
-  ]);
+  const recommendedTracksData = await fetchRecommendedTracks(accessToken);
 
+  // transforming the data in order to match the table component
   const recommendedTracks = transformRecommendedTracks(recommendedTracksData);
 
   return (
@@ -50,10 +46,10 @@ export default async function Page() {
         <CardWrapper />
       </Suspense>
       <div className=" mt-5">
-        <TracksTable
+        <RecommendationsTable
           title="Recommended Tracks"
           tracks={recommendedTracks}
-          icon={FaPlus}
+          accessToken={accessToken}
         />
       </div>
     </section>
