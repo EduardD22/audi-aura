@@ -13,6 +13,7 @@ import { CiPlay1 } from "react-icons/ci";
 import { Button } from "@/components/ui/button";
 import SubmitBtn from "./SubmitBtn";
 import { createRecommendedPlaylist } from "@/lib/actions";
+import ClientTrackRowContainer from "./ClientTrackRowContainer";
 
 export interface Track {
   track: {
@@ -59,38 +60,13 @@ const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
             <TableHead className="font-bold text-opacity">Title</TableHead>
             <TableHead className="font-bold text-opacity">Artist</TableHead>
             <TableHead className="font-bold text-opacity">Album</TableHead>
-            <TableHead className="font-bold text-opacity ">Play</TableHead>
+            <TableHead className="font-bold text-opacity text-center ">
+              Play
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {tracks.map((track, index) => (
-            <TableRow className="border-b-0" key={index}>
-              <TableCell className="font-bold text-opacity">
-                {(index + 1).toString().padStart(2, "0")}
-              </TableCell>
-              <TableCell className="font-bold">
-                <div className="flex items-center">
-                  <Image
-                    src={track.track.album.images[0].url}
-                    alt={track.track.name}
-                    width={40}
-                    height={40}
-                    className="mr-4 rounded"
-                  />
-                  {track.track.name}
-                </div>
-              </TableCell>
-              <TableCell className="text-xs text-opacity">
-                {track.track.artists.map((artist) => artist.name).join(", ")}
-              </TableCell>
-              <TableCell className="text-xs text-opacity">
-                {track.track.album.name}
-              </TableCell>
-              <TableCell className="text-center">
-                <CiPlay1 className="text-accent" />
-              </TableCell>
-            </TableRow>
-          ))}
+          <ClientTrackRowContainer tracks={tracks} />
         </TableBody>
       </Table>
     </div>
