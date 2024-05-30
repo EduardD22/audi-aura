@@ -1,9 +1,9 @@
 "use client";
 
 import { TableCell, TableRow } from "@/components/ui/table";
-import { LucideLoader2 } from "lucide-react";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CiPause1, CiPlay1 } from "react-icons/ci";
 import ReactPlayer from "react-player";
 
@@ -36,12 +36,33 @@ const ClientTrackRow: React.FC<ClientTrackRowProps> = ({
 }) => {
   // check if the current tracks is playing
   const isPlaying = currentPlayingUri === track.track.uri;
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setProgress((prevProgress) =>
+          prevProgress >= 100 ? 100 : prevProgress + 1
+        );
+      }, 300); // 30 seconds * 1000ms / 100 (1% every 0.3s)
+
+      return () => clearInterval(interval);
+    } else {
+      setProgress(0);
+    }
+  }, [isPlaying]);
 
   const handlePlayPause = () => {
     // if track.track.uri is undefined, set it to null
     setCurrentPlayingUri(isPlaying ? null : track.track.uri ?? null);
     console.log("track uri", track.track.uri);
     console.log("preview url", track.track.preview_url);
+  };
+
+  const handleEnded = () => {
+    setCurrentPlayingUri(null);
+    setProgress(0);
   };
   return (
     <TableRow className="border-b-0">
@@ -66,20 +87,37 @@ const ClientTrackRow: React.FC<ClientTrackRowProps> = ({
       <TableCell className="text-xs text-opacity">
         {track.track.album.name}
       </TableCell>
-      <TableCell className="text-center">
-        <button onClick={handlePlayPause}>
-          {isPlaying ? (
-            <CiPause1 className="text-accent" />
-          ) : (
-            <CiPlay1 className="text-accent" />
+      <TableCell className="text-center relative">
+        <div className="relative w-8 h-8 flex items-center justify-center">
+          <button onClick={handlePlayPause} className="relative z-10">
+            {isPlaying ? (
+              <CiPause1 className="text-accent" />
+            ) : (
+              <CiPlay1 className="text-accent" />
+            )}
+          </button>
+          {isPlaying && (
+            <div className="absolute inset-0 flex items-center justify-center z-0">
+              <CircularProgressbar
+                value={progress}
+                styles={buildStyles({
+                  pathColor: "rgba(253,163,18)",
+                  trailColor: "#d6d6d6",
+                  strokeLinecap: "round",
+                  pathTransitionDuration: 0.3,
+                })}
+                className="w-10 h-10"
+              />
+            </div>
           )}
-        </button>
+        </div>
         {isPlaying && (
           <ReactPlayer
             url={track.track.preview_url}
             playing={isPlaying}
             height={0}
             width={0}
+            onEnded={handleEnded}
           />
         )}
       </TableCell>

@@ -6,11 +6,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Image from "next/image";
 
 import SectionTitle from "./SectionTitle";
-import { CiPlay1 } from "react-icons/ci";
-import { Button } from "@/components/ui/button";
+
 import SubmitBtn from "./SubmitBtn";
 import { createRecommendedPlaylist } from "@/lib/actions";
 import ClientTrackRowContainer from "./ClientTrackRowContainer";
@@ -60,9 +58,7 @@ const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
             <TableHead className="font-bold text-opacity">Title</TableHead>
             <TableHead className="font-bold text-opacity">Artist</TableHead>
             <TableHead className="font-bold text-opacity">Album</TableHead>
-            <TableHead className="font-bold text-opacity text-center ">
-              Play
-            </TableHead>
+            <TableHead className="font-bold text-opacity">Play</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
