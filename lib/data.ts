@@ -451,7 +451,7 @@ const fetchRecommendedArtistsCache = unstable_cache(
     return recommendedArtists;
   },
   ["recommended-artists"],
-  { revalidate: 3600 }
+  { revalidate: 1800 }
 );
 
 const fetchRecommendedTracksCache = unstable_cache(
@@ -482,7 +482,7 @@ const fetchRecommendedTracksCache = unstable_cache(
     return data.tracks;
   },
   ["recommended-tracks"],
-  { revalidate: 3600 }
+  { revalidate: 1800 }
 );
 
 export async function fetchRecommendedArtists(accessToken: string) {
