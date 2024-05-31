@@ -21,3 +21,17 @@ export interface Track {
   name: string;
   preview_url: string;
 }
+
+export interface Playlist {
+  id: string;
+  name: string;
+  description: string;
+  owner: {
+    display_name: string;
+  };
+  external_urls: { spotify: string };
+  images: { url: string }[];
+  tracks: {
+    total: number;
+  };
+}

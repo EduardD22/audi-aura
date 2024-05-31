@@ -5,6 +5,7 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { CiPause1, CiPlay1 } from "react-icons/ci";
+import { BiError } from "react-icons/bi";
 import ReactPlayer from "react-player";
 
 export interface Track {
@@ -54,10 +55,10 @@ const ClientTrackRow: React.FC<ClientTrackRowProps> = ({
   }, [isPlaying]);
 
   const handlePlayPause = () => {
-    // if track.track.uri is undefined, set it to null
-    setCurrentPlayingUri(isPlaying ? null : track.track.uri ?? null);
-    console.log("track uri", track.track.uri);
-    console.log("preview url", track.track.preview_url);
+    if (track.track.preview_url) {
+      // if track.track.uri is undefined, set it to null
+      setCurrentPlayingUri(isPlaying ? null : track.track.uri ?? null);
+    }
   };
 
   const handleEnded = () => {
@@ -89,37 +90,47 @@ const ClientTrackRow: React.FC<ClientTrackRowProps> = ({
       </TableCell>
       <TableCell className="text-center relative">
         <div className="relative w-8 h-8 flex items-center justify-center">
-          <button onClick={handlePlayPause} className="relative z-10">
-            {isPlaying ? (
-              <CiPause1 className="text-accent" />
-            ) : (
-              <CiPlay1 className="text-accent" />
-            )}
-          </button>
-          {isPlaying && (
-            <div className="absolute inset-0 flex items-center justify-center z-0">
-              <CircularProgressbar
-                value={progress}
-                styles={buildStyles({
-                  pathColor: "rgba(253,163,18)",
-                  trailColor: "#d6d6d6",
-                  strokeLinecap: "round",
-                  pathTransitionDuration: 0.3,
-                })}
-                className="w-10 h-10"
-              />
-            </div>
+          {track.track.preview_url ? (
+            <>
+              <button onClick={handlePlayPause} className="relative z-10">
+                {isPlaying ? (
+                  <CiPause1 className="text-accent" title="Pause" />
+                ) : (
+                  <CiPlay1 className="text-accent" title="Play" />
+                )}
+              </button>
+              {isPlaying && (
+                <div className="absolute inset-0 flex items-center justify-center z-0">
+                  <CircularProgressbar
+                    value={progress}
+                    styles={buildStyles({
+                      pathColor: "rgba(253,163,18)",
+                      trailColor: "#d6d6d6",
+                      strokeLinecap: "round",
+                      pathTransitionDuration: 0.3,
+                    })}
+                    className="w-10 h-10"
+                  />
+                </div>
+              )}
+
+              {isPlaying && (
+                <ReactPlayer
+                  url={track.track.preview_url}
+                  playing={isPlaying}
+                  height={0}
+                  width={0}
+                  onEnded={handleEnded}
+                />
+              )}
+            </>
+          ) : (
+            <BiError
+              className="text-red-500 text-xl"
+              title="No preview available"
+            />
           )}
         </div>
-        {isPlaying && (
-          <ReactPlayer
-            url={track.track.preview_url}
-            playing={isPlaying}
-            height={0}
-            width={0}
-            onEnded={handleEnded}
-          />
-        )}
       </TableCell>
     </TableRow>
   );

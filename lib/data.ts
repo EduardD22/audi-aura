@@ -492,3 +492,31 @@ export async function fetchRecommendedArtists(accessToken: string) {
 export async function fetchRecommendedTracks(accessToken: string) {
   return fetchRecommendedTracksCache(accessToken);
 }
+
+// Playlist page
+
+const fetchFeaturedPlaylistsCache = unstable_cache(
+  async (accessToken: string) => {
+    const response = await fetch(
+      `https://api.spotify.com/v1/browse/featured-playlists?limit=4`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch featured playlists");
+    }
+
+    const data = await response.json();
+    return data.playlists.items;
+  },
+  ["featured-playlists"],
+  { revalidate: 3600 }
+);
+
+export async function fetchFeaturedPlaylists(accessToken: string) {
+  return fetchFeaturedPlaylistsCache(accessToken);
+}
