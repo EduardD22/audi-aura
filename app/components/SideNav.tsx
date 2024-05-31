@@ -132,7 +132,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }) => {
             <SideNavItem key={item.label} {...item} />
           </Box>
         ))}
-        <Box children="" className="flex-grow"></Box>
+        <Box className="flex-grow" children={undefined}></Box>
         <Box className="flex items-center justify-around px-4 py-2 text-accent">
           <HiSun
             size={24}
