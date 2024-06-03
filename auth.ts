@@ -1,5 +1,6 @@
 import NextAuth, { DefaultSession } from "next-auth";
 import Spotify from "next-auth/providers/spotify";
+import { redirect } from "next/navigation";
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
@@ -137,9 +138,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
         console.log("Token refreshed successfully, returning updated token");
         return refreshedToken;
-      } catch (error) {
+      } catch (error: any) {
         console.error("Error refreshing access token", error);
-        return { ...token, error: "RefreshAccessTokenError" as const };
+        if (
+          error.error === "invalid_grant" &&
+          error.error_description === "Refresh token revoked"
+        ) {
+          redirect("/");
+        }
+        throw error;
       }
     },
 
