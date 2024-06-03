@@ -19,9 +19,6 @@ export default async function Page() {
 
   if (!session?.user) return null;
 
-  console.log("Session:", session); // Log the session object
-  console.log("Access Token:", session.access_token); // Log the access token
-
   const accessToken = session.access_token ?? "";
   const [
     topArtist,
