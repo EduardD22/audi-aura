@@ -67,12 +67,6 @@ const SideNav: React.FC<SideNavProps> = ({ children }) => {
         active: pathname === "/dashboard/recommendations",
         href: "/dashboard/recommendations",
       },
-      {
-        icon: HiViewList,
-        label: "Playlists",
-        active: pathname === "/dashboard/playlists",
-        href: "/dashboard/playlists",
-      },
     ],
     [pathname]
   );
@@ -113,6 +107,17 @@ const SideNav: React.FC<SideNavProps> = ({ children }) => {
               <span className="text-xs mt-1">{item.label}</span>
             </Link>
           ))}
+          <button
+            className="flex flex-col hover:text-accent transition text-xs items-center mt-1"
+            onClick={() =>
+              signOut({
+                callbackUrl: "/",
+              })
+            }
+          >
+            <HiLogout size={24} className="text-accent" />
+            Log Out
+          </button>
         </div>
       </nav>
 
@@ -161,7 +166,7 @@ const SideNav: React.FC<SideNavProps> = ({ children }) => {
               }
             >
               <HiLogout size={24} className="text-accent" />
-              Log out
+              Log Out
             </button>
           </div>
         </Box>
