@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## AudiAura
 
-## Getting Started
+AudiAura is a personalized music dashboard based on the Spotify API that displays your music preferences, playlists, and recommendations in one place.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [Screenshots](#screenshots)
+6. [Spotify Authorization](#spotify-authorization)
+4. [Demo](#demo)
+5. [Technologies Used](#technologies-used)
+       
+## Introduction
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+AudiAura aims to provide music enthusiasts with a central hub to manage and explore their music interests. By integrating with Spotify, AudiAura offers personalized recommendations, playlist creation, and much more.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
+- **Secure Log In Process**: Log in securely with your Spotify account using OAuth.
+- **Personalized Dashboard**: See your music preferences and recommendations in one place.
+- **Interactive Charts**: See your music preferences and trends nicely displayed in charts. 
+- **Song Preview Feature**: Listen to recommended songs before adding them to a playlist.
+- **Playlist Creation**: Create a playlist based on your recommended tracks.
+- **Responsive Design**: Optimized for both desktop and mobile devices.
+- **Dark and Light Mode**: Switch between dark and light mode. 
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Screenshots
+<img width="1431" alt="image" src="https://github.com/EduardD22/audi-aura/assets/103997547/b9460ad6-fe8b-45b6-86d0-138fc6f675a3">
+<img width="1434" alt="image" src="https://github.com/EduardD22/audi-aura/assets/103997547/4eb43fdf-7234-488e-b3fb-d5f6d74ceca6">
+<img width="1435" alt="image" src="https://github.com/EduardD22/audi-aura/assets/103997547/b6c9fd82-a974-44f7-891a-1579db6cad9c">
+<img width="1437" alt="image" src="https://github.com/EduardD22/audi-aura/assets/103997547/f0a063ea-3a48-4046-820c-e0f0ca154443">
+<img width="1437" alt="image" src="https://github.com/EduardD22/audi-aura/assets/103997547/73e2206c-0e8d-4340-97d2-235d8f163df5">
 
-## Learn More
+## Spotify Authorization
+Currently, AudiAura is awaiting Spotify authorization for the Quota Extension. This means that I'm currently able to add a maximum of 25 users to the app. To try the app and go through the OAuth process, users must provide their Spotify email to be manually added to the application. If you are comfortable with this, please contact me with your Spotify email.
 
-To learn more about Next.js, take a look at the following resources:
+Alternatively, if you do not want to share your personal information, you can use the following test account to explore the app:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    Username: testGilbert49@gmail.com
+    Password: testTest123!
+    
+## Demo
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Check out the live demo [here](https://audi-aura.vercel.app).
 
-## Deploy on Vercel
+## Technologies Used
+TypeScript, Next.js, Tailwind CSS, shadcn/ui, Recharts.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
