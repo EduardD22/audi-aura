@@ -2,6 +2,8 @@
 
 AudiAura is a personalized music dashboard based on the Spotify API that displays your music preferences, playlists, and recommendations in one place.
 
+(UPDATE JAN 2025 -> The project can't be tested anymore since new third-party apps are no longer be able to access certain data from Spotify's API: related artists, recommendations, audio features, audio analysis, featured playlists, category playlists, 30-second preview URLs, and editorial playlists. Spotify cut access to them.) 
+
 ## Table of Contents
 
 1. [Introduction](#introduction)
